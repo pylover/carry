@@ -3,44 +3,44 @@
 
 
 enum carry_status
-carry_init (struct carry *c) {
-    memset(c->buffer, 0, sizeof(int) * CARRY_SIZE);
+CNAME(carry_init)  (struct CNAME(carry) *c) {
+    memset(c->buffer, 0, sizeof(CTYPE) * CSIZE);
     c->count = 0;
     return CARRY_OK;
 }
 
 
 bool
-carry_isfull(struct carry *c) {
-    return c->count == CARRY_SIZE;
+CNAME(carry_isfull) (struct CNAME(carry) *c) {
+    return c->count == CSIZE;
 }
 
 
 bool
-carry_isempty(struct carry *c) {
+CNAME(carry_isempty) (struct CNAME(carry) *c) {
     return c->count == 0;
 }
 
 
 enum carry_status
-carry_count(struct carry *c) {
+CNAME(carry_count) (struct CNAME(carry) *c) {
     return c->count;
 }
 
 
 enum carry_status
-carry_copy(struct carry *c, int *out, int index) {
+CNAME(carry_copy) (struct CNAME(carry) *c, CTYPE *out, int index) {
     if (c->count <= index) {
         return CARRY_INDEXERROR;
     }
     
-    memcpy(out, &(c->buffer[index]), sizeof(int));
+    memcpy(out, &(c->buffer[index]), sizeof(CTYPE));
     return CARRY_OK;
 }
 
 
-int *
-carry_getp(struct carry *c, int index) {
+CTYPE *
+CNAME(carry_getp) (struct CNAME(carry) *c, int index) {
     if (c->count <= index) {
         return NULL;
     }
@@ -50,21 +50,21 @@ carry_getp(struct carry *c, int index) {
 
 
 enum carry_status
-carry_appendp(struct carry *c, int *item) {
+CNAME(carry_appendp) (struct CNAME(carry) *c, CTYPE *item) {
     int i;
     
     if (carry_isfull(c)) {
         return CARRY_FULL;
     }
     
-    memcpy(&(c->buffer[c->count]), item, sizeof(int));
+    memcpy(&(c->buffer[c->count]), item, sizeof(CTYPE));
     c->count++;
     return CARRY_OK;
 }
 
 
 enum carry_status
-carry_insertp(struct carry *c, int index, int *item) {
+CNAME(carry_insertp) (struct CNAME(carry) *c, int index, CTYPE *item) {
     int i;
     
     if (carry_isfull(c)) {
@@ -77,16 +77,16 @@ carry_insertp(struct carry *c, int index, int *item) {
     
     c->count++;
     for (i = c->count; i >= index; i--) {
-        memcpy(&(c->buffer[i]), &(c->buffer[i-1]), sizeof(int));
+        memcpy(&(c->buffer[i]), &(c->buffer[i-1]), sizeof(CTYPE));
     }
     
-    memcpy(&(c->buffer[index]), item, sizeof(int));
+    memcpy(&(c->buffer[index]), item, sizeof(CTYPE));
     return CARRY_OK;
 }
 
 
 enum carry_status
-carry_delete(struct carry *c, int index) {
+CNAME(carry_delete) (struct CNAME(carry) *c, int index) {
     int i;
 
     if (c->count <= index) {
@@ -94,7 +94,7 @@ carry_delete(struct carry *c, int index) {
     }
 
     for (i = (index + 1); i < c->count; i++) {
-        memcpy(&(c->buffer[i-1]), &(c->buffer[i]), sizeof(int));
+        memcpy(&(c->buffer[i-1]), &(c->buffer[i]), sizeof(CTYPE));
     }
     c->count--;
     return CARRY_OK;

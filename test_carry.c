@@ -28,7 +28,7 @@ test_carry_init() {
     eqint(0, carry_count(&c));
     eqint(true, carry_isempty(&c));
     eqint(false, carry_isfull(&c));
-    for (i = 0; i < CARRY_SIZE; i++) {
+    for (i = 0; i < CSIZE; i++) {
         eqint(CARRY_INDEXERROR, carry_copy(&c, &tmp, i));
     }
 }
@@ -40,7 +40,7 @@ test_carry_append() {
     struct carry c;
     carry_init(&c);
     
-    for (i = 0; i < CARRY_SIZE; i++) {
+    for (i = 0; i < CSIZE; i++) {
         eqint(CARRY_OK, carry_appendp(&c, &i));
     }
     eqint(8, carry_count(&c));
@@ -55,7 +55,7 @@ test_carry_delete() {
     struct carry c;
     carry_init(&c);
     
-    for (i = 0; i < CARRY_SIZE; i++) {
+    for (i = 0; i < CSIZE; i++) {
         carry_appendp(&c, &i);
     }
     eqint(8, carry_count(&c));

@@ -16,46 +16,46 @@ carry_status {
 
 
 struct 
-carry {
-    int buffer[CARRY_SIZE];
+CNAME(carry) {
+    CTYPE buffer[CSIZE];
     size_t count;
 };
 
 
 enum carry_status
-carry_init(struct carry *c);
+CNAME(carry_init)(struct CNAME(carry) *c);
 
 
 enum carry_status
-carry_copy(struct carry *c, int *out, int index);
+CNAME(carry_copy)(struct CNAME(carry) *c, CTYPE *out, int index);
 
 
-int *
-carry_getp(struct carry *c, int index);
-
-
-enum carry_status
-carry_appendp(struct carry *c, int *item);
+CTYPE *
+CNAME(carry_getp) (struct CNAME(carry) *c, int index);
 
 
 enum carry_status
-carry_insertp(struct carry *c, int index, int *item);
+CNAME(carry_appendp) (struct CNAME(carry) *c, CTYPE *item);
 
 
 enum carry_status
-carry_delete(struct carry *c, int index);
+CNAME(carry_insertp) (struct CNAME(carry) *c, int index, CTYPE *item);
+
+
+enum carry_status
+CNAME(carry_delete) (struct CNAME(carry) *c, int index);
 
 
 bool
-carry_isfull(struct carry *c);
+CNAME(carry_isfull) (struct CNAME(carry) *c);
 
 
 bool
-carry_isempty(struct carry *c);
+CNAME(carry_isempty) (struct CNAME(carry) *c);
 
 
 enum carry_status
-carry_count(struct carry *c);
+CNAME(carry_count) (struct CNAME(carry) *c);
 
 
 #endif
