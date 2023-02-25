@@ -6,6 +6,18 @@
 #include "carry_int.h"
 
 
+static int i0 = 0;
+static int i1 = 1;
+static int i2 = 2;
+static int i3 = 3;
+static int i4 = 4;
+static int i5 = 5;
+static int i6 = 6;
+static int i7 = 7;
+static int i8 = 8;
+static int i9 = 9;
+
+
 void
 test_carry_init() {
     int i;
@@ -20,18 +32,6 @@ test_carry_init() {
         eqint(CARRY_INDEXERROR, carry_copy(&c, &tmp, i));
     }
 }
-
-
-static int i0 = 0;
-static int i1 = 1;
-static int i2 = 2;
-static int i3 = 3;
-static int i4 = 4;
-static int i5 = 5;
-static int i6 = 6;
-static int i7 = 7;
-static int i8 = 8;
-static int i9 = 9;
 
 
 void
