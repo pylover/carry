@@ -1,5 +1,5 @@
-#ifndef CARRY_INT_H
-#define CARRY_INT_H
+#ifndef CARRY_CHAR_H
+#define CARRY_CHAR_H
 
 
 #undef CARRY_H
@@ -9,8 +9,8 @@
 
 
 #define CNAME(name) name
-#define CTYPE int
-#define CSIZE  8
+#define CTYPE char
+#define CSIZE 8
 #include "carry.h"
 
 
