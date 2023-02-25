@@ -3,6 +3,7 @@
 
 
 #include <stddef.h>
+#include <stdbool.h>
 
 
 enum 
@@ -10,14 +11,13 @@ carry_status {
     CARRY_OK,
     CARRY_EMPTY,
     CARRY_FULL,
-    CARRY_BADARG,
+    CARRY_INDEXERROR,
 };
 
 
 struct 
 carry {
     int buffer[CARRY_SIZE];
-    int *items[CARRY_SIZE];
     size_t count;
 };
 
@@ -27,11 +27,31 @@ carry_init (struct carry *c);
 
 
 enum carry_status
+carry_get(struct carry *c, int *out, int index);
+
+
+int *
+carry_getp(struct carry *c, int index);
+
+
+enum carry_status
 carry_append(struct carry *c, int item);
 
 
 enum carry_status
+carry_delete(struct carry *c, int index);
+
+
+bool
 carry_isfull(struct carry *c);
+
+
+bool
+carry_isempty(struct carry *c);
+
+
+enum carry_status
+carry_count(struct carry *c);
 
 
 #endif
