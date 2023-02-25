@@ -29,7 +29,7 @@ carry_count(struct carry *c) {
 
 
 enum carry_status
-carry_get(struct carry *c, int *out, int index) {
+carry_copy(struct carry *c, int *out, int index) {
     if (c->count <= index) {
         return CARRY_INDEXERROR;
     }
@@ -50,15 +50,37 @@ carry_getp(struct carry *c, int index) {
 
 
 enum carry_status
-carry_append(struct carry *c, int item) {
+carry_appendp(struct carry *c, int *item) {
     int i;
     
     if (carry_isfull(c)) {
         return CARRY_FULL;
     }
     
-    memcpy(&(c->buffer[c->count]), &item, sizeof(int));
+    memcpy(&(c->buffer[c->count]), item, sizeof(int));
     c->count++;
+    return CARRY_OK;
+}
+
+
+enum carry_status
+carry_insertp(struct carry *c, int index, int *item) {
+    int i;
+    
+    if (carry_isfull(c)) {
+        return CARRY_FULL;
+    }
+    
+    if (c->count < index) {
+        return CARRY_INDEXERROR;
+    }
+    
+    c->count++;
+    for (i = c->count; i >= index; i--) {
+        memcpy(&(c->buffer[i]), &(c->buffer[i-1]), sizeof(int));
+    }
+    
+    memcpy(&(c->buffer[index]), item, sizeof(int));
     return CARRY_OK;
 }
 

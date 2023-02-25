@@ -27,7 +27,7 @@ carry_init (struct carry *c);
 
 
 enum carry_status
-carry_get(struct carry *c, int *out, int index);
+carry_copy(struct carry *c, int *out, int index);
 
 
 int *
@@ -35,7 +35,11 @@ carry_getp(struct carry *c, int index);
 
 
 enum carry_status
-carry_append(struct carry *c, int item);
+carry_appendp(struct carry *c, int *item);
+
+
+enum carry_status
+carry_insertp(struct carry *c, int index, int *item);
 
 
 enum carry_status
