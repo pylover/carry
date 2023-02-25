@@ -8,6 +8,10 @@
 
 void
 test_carry_init() {
+    struct carry c;
+    eqint(CARRY_OK, carry_init(&c));
+
+    eqint(CARRY_OK, carry_append(&c, 1));
 }
 
 

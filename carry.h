@@ -17,9 +17,21 @@ carry_status {
 struct 
 carry {
     int buffer[CARRY_SIZE];
-    void *items[CARRY_SIZE];
-    size_t size;
+    int *items[CARRY_SIZE];
+    size_t count;
 };
+
+
+enum carry_status
+carry_init (struct carry *c);
+
+
+enum carry_status
+carry_append(struct carry *c, int item);
+
+
+enum carry_status
+carry_isfull(struct carry *c);
 
 
 #endif
