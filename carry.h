@@ -23,7 +23,7 @@ carry {
 
 
 enum carry_status
-carry_init (struct carry *c);
+carry_init(struct carry *c);
 
 
 enum carry_status
