@@ -1,7 +1,7 @@
-#include "carry.h"
+#include <stddef.h>
 
 
 int
-GNAME(carry_init) (struct GNAME(carry) *c, size_t size) {
+carry_init (struct carry *c, size_t size) {
     return 0;
 }

@@ -2,7 +2,7 @@
 #define CARRY_H
 
 
-#define GNAME(name) name
+#include <stddef.h>
 
 
 enum 
@@ -15,8 +15,8 @@ carry_status {
 
 
 struct 
-GNAME(carry) {
-    T buffer[CARRY_SIZE];
+carry {
+    int buffer[CARRY_SIZE];
     void *items[CARRY_SIZE];
     size_t size;
 };

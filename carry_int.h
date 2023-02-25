@@ -2,8 +2,8 @@
 #define CARRY_INT_H
 
 
-#define T   int
+#define CARRY_SIZE  8
 #include "carry.h"
-#undef T
+
 
 #endif
