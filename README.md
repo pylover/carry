@@ -44,8 +44,12 @@ struct foo {
 Now, include and use it:
 
 ```c
+#include "fcarry.h"
+
+
 struct foo tmp;
 struct fcarry c;
+
 
 fcarry_init(&c);
 fcarry_count(&c);
