@@ -1,2 +1,1 @@
-- Opaque object
 - Readme
