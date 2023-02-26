@@ -6,15 +6,6 @@
 #include <stdbool.h>
 
 
-enum 
-carry_status {
-    CARRY_OK,
-    CARRY_EMPTY,
-    CARRY_FULL,
-    CARRY_INDEXERROR,
-};
-
-
 struct 
 CNAME(carry) {
     CTYPE buffer[CSIZE];
@@ -22,11 +13,11 @@ CNAME(carry) {
 };
 
 
-enum carry_status
+int
 CNAME(carry_init)(struct CNAME(carry) *c);
 
 
-enum carry_status
+int
 CNAME(carry_copy)(struct CNAME(carry) *c, CTYPE *out, int index);
 
 
@@ -34,15 +25,15 @@ CTYPE *
 CNAME(carry_getp) (struct CNAME(carry) *c, int index);
 
 
-enum carry_status
+int
 CNAME(carry_appendp) (struct CNAME(carry) *c, CTYPE *item);
 
 
-enum carry_status
+int
 CNAME(carry_insertp) (struct CNAME(carry) *c, int index, CTYPE *item);
 
 
-enum carry_status
+int
 CNAME(carry_delete) (struct CNAME(carry) *c, int index);
 
 
@@ -54,7 +45,7 @@ bool
 CNAME(carry_isempty) (struct CNAME(carry) *c);
 
 
-enum carry_status
+size_t
 CNAME(carry_count) (struct CNAME(carry) *c);
 
 

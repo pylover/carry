@@ -6,20 +6,14 @@ all: test
 	$(CC) -c $(CFLAGS) -o $@ $<
 
 
-test_carry_int: test_carry_int.c carry_int.o
+test_carry: test_carry.c test_icarry.c test_fcarry.c icarry.o fcarry.o
 	$(CC) -o $@ $^
 
 
-test_carry_char: test_carry_char.c carry_char.o
-	$(CC) -o $@ $^
-
-
-test: test_carry_int test_carry_char
-	./test_carry_int
-	./test_carry_char
+test: test_carry
+	./test_carry
 
 
 clean:
 	-rm *.o
-	-rm test_carry_int
-	-rm test_carry_char
+	-rm test_carry
