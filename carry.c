@@ -3,7 +3,7 @@
 
 
 int
-CNAME(carry_init)  (struct CNAME(carry) *c) {
+CFNAME(init)  (struct CSNAME *c) {
     memset(c->buffer, 0, sizeof(CTYPE) * CSIZE);
     c->count = 0;
     return 0;
@@ -11,25 +11,25 @@ CNAME(carry_init)  (struct CNAME(carry) *c) {
 
 
 bool
-CNAME(carry_isfull) (struct CNAME(carry) *c) {
+CFNAME(isfull) (struct CSNAME *c) {
     return c->count == CSIZE;
 }
 
 
 bool
-CNAME(carry_isempty) (struct CNAME(carry) *c) {
+CFNAME(isempty) (struct CSNAME *c) {
     return c->count == 0;
 }
 
 
 size_t
-CNAME(carry_count) (struct CNAME(carry) *c) {
+CFNAME(count) (struct CSNAME *c) {
     return c->count;
 }
 
 
 int
-CNAME(carry_copy) (struct CNAME(carry) *c, CTYPE *out, int index) {
+CFNAME(copy) (struct CSNAME *c, CTYPE *out, int index) {
     if (c->count <= index) {
         return -1;
     }
@@ -40,7 +40,7 @@ CNAME(carry_copy) (struct CNAME(carry) *c, CTYPE *out, int index) {
 
 
 CTYPE *
-CNAME(carry_getp) (struct CNAME(carry) *c, int index) {
+CFNAME(getp) (struct CSNAME *c, int index) {
     if (c->count <= index) {
         return NULL;
     }
@@ -50,10 +50,11 @@ CNAME(carry_getp) (struct CNAME(carry) *c, int index) {
 
 
 int
-CNAME(carry_appendp) (struct CNAME(carry) *c, CTYPE *item) {
+CFNAME(appendp) (struct CSNAME *c, CTYPE *item) {
     int i;
     
-    if (CNAME(carry_isfull)(c)) {
+    if (c->count == CSIZE) {
+        /* full */
         return -1;
     }
     
@@ -64,10 +65,11 @@ CNAME(carry_appendp) (struct CNAME(carry) *c, CTYPE *item) {
 
 
 int
-CNAME(carry_insertp) (struct CNAME(carry) *c, int index, CTYPE *item) {
+CFNAME(insertp) (struct CSNAME *c, int index, CTYPE *item) {
     int i;
     
-    if (CNAME(carry_isfull)(c)) {
+    if (c->count == CSIZE) {
+        /* full */
         return -1;
     }
     
@@ -86,7 +88,7 @@ CNAME(carry_insertp) (struct CNAME(carry) *c, int index, CTYPE *item) {
 
 
 int
-CNAME(carry_delete) (struct CNAME(carry) *c, int index) {
+CFNAME(delete) (struct CSNAME *c, int index) {
     int i;
 
     if (c->count <= index) {

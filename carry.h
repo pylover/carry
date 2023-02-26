@@ -7,46 +7,46 @@
 
 
 struct 
-CNAME(carry) {
+CSNAME {
     CTYPE buffer[CSIZE];
     size_t count;
 };
 
 
 int
-CNAME(carry_init)(struct CNAME(carry) *c);
+CFNAME(init)(struct CSNAME *c);
 
 
 int
-CNAME(carry_copy)(struct CNAME(carry) *c, CTYPE *out, int index);
+CFNAME(copy)(struct CSNAME *c, CTYPE *out, int index);
 
 
 CTYPE *
-CNAME(carry_getp) (struct CNAME(carry) *c, int index);
+CFNAME(getp) (struct CSNAME *c, int index);
 
 
 int
-CNAME(carry_appendp) (struct CNAME(carry) *c, CTYPE *item);
+CFNAME(appendp) (struct CSNAME *c, CTYPE *item);
 
 
 int
-CNAME(carry_insertp) (struct CNAME(carry) *c, int index, CTYPE *item);
+CFNAME(insertp) (struct CSNAME *c, int index, CTYPE *item);
 
 
 int
-CNAME(carry_delete) (struct CNAME(carry) *c, int index);
+CFNAME(delete) (struct CSNAME *c, int index);
 
 
 bool
-CNAME(carry_isfull) (struct CNAME(carry) *c);
+CFNAME(isfull) (struct CSNAME *c);
 
 
 bool
-CNAME(carry_isempty) (struct CNAME(carry) *c);
+CFNAME(isempty) (struct CSNAME *c);
 
 
 size_t
-CNAME(carry_count) (struct CNAME(carry) *c);
+CFNAME(count) (struct CSNAME *c);
 
 
 #endif

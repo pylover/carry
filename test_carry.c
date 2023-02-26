@@ -11,15 +11,15 @@
 
 int main() {
     // Defined in test_icarry.c
-    test_icarry_init();
-    test_icarry_append();
-    test_icarry_delete();
-    test_icarry_insert();
+    test_iinit();
+    test_iappend();
+    test_idelete();
+    test_iinsert();
 
     // Defined in test_fcarry.c
-    test_fcarry_init();
-    test_fcarry_append();
-    test_fcarry_delete();
+    test_finit();
+    test_fappend();
+    test_fdelete();
     // test_fcarry_insert();
     return EXIT_SUCCESS;
 }

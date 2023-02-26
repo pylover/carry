@@ -3,14 +3,16 @@
 
 
 #undef CARRY_H
-#undef CNAME
+#undef CSNAME
+#undef CFNAME
 #undef CTYPE
 #undef CSIZE
 
 
-#define CNAME(name) i ## name
+#define CSNAME ints
+#define CFNAME(name) i ## name
 #define CTYPE int
-#define CSIZE  8
+#define CSIZE 8
 #include "carry.h"
 
 

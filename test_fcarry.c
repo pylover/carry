@@ -25,105 +25,105 @@ static struct foo *foos[10] = {
 
 
 void
-test_fcarry_init() {
+test_finit() {
     int i;
     struct foo tmp;
-    struct fcarry c;
+    struct foos c;
 
-    eqint(0, fcarry_init(&c));
-    eqint(0, fcarry_count(&c));
-    eqint(true, fcarry_isempty(&c));
-    eqint(false, fcarry_isfull(&c));
+    eqint(0, finit(&c));
+    eqint(0, fcount(&c));
+    eqint(true, fisempty(&c));
+    eqint(false, fisfull(&c));
     for (i = 0; i < CSIZE; i++) {
-        eqint(-1, fcarry_copy(&c, &tmp, i));
+        eqint(-1, fcopy(&c, &tmp, i));
     }
 }
 
 
 void
-test_fcarry_append() {
+test_fappend() {
     char i;
-    struct fcarry c;
-    fcarry_init(&c);
+    struct foos c;
+    finit(&c);
     
     for (i = 0; i < CSIZE; i++) {
-        eqint(0, fcarry_appendp(&c, foos[i]));
+        eqint(0, fappendp(&c, foos[i]));
     }
-    eqint(8, fcarry_count(&c));
-    eqint(-1, fcarry_appendp(&c, &f8));
-    eqint(8, fcarry_count(&c));
+    eqint(8, fcount(&c));
+    eqint(-1, fappendp(&c, &f8));
+    eqint(8, fcount(&c));
 }
 
 
 void
-test_fcarry_delete() {
+test_fdelete() {
     char i;
-    struct fcarry c;
-    fcarry_init(&c);
+    struct foos c;
+    finit(&c);
     
     for (i = 0; i < CSIZE; i++) {
-        fcarry_appendp(&c, foos[i]);
+        fappendp(&c, foos[i]);
     }
-    eqint(8, fcarry_count(&c));
-    eqint(0, fcarry_getp(&c, 0)->bar);
+    eqint(8, fcount(&c));
+    eqint(0, fgetp(&c, 0)->bar);
   
-    eqint(0, fcarry_delete(&c, 7));
-    eqint(7, fcarry_count(&c));
+    eqint(0, fdelete(&c, 7));
+    eqint(7, fcount(&c));
     for (i = 0; i < 7; i++) {
-        eqint(i, fcarry_getp(&c, i)->bar);
+        eqint(i, fgetp(&c, i)->bar);
     }
     
     int ctemp = 7;
     int loop = 0;
-    while (fcarry_count(&c)) {
+    while (fcount(&c)) {
         loop++;
-        eqint(ctemp--, fcarry_count(&c));
-        eqint(0, fcarry_delete(&c, 0));
-        eqint(ctemp, fcarry_count(&c));
+        eqint(ctemp--, fcount(&c));
+        eqint(0, fdelete(&c, 0));
+        eqint(ctemp, fcount(&c));
         for (i = 0; i < ctemp; i++) {
-            eqint(i + loop, fcarry_getp(&c, i)->bar);
+            eqint(i + loop, fgetp(&c, i)->bar);
         }
-        isnull(fcarry_getp(&c, i+1));
+        isnull(fgetp(&c, i+1));
     }
-    eqint(-1, fcarry_delete(&c, 0));
+    eqint(-1, fdelete(&c, 0));
 }
 
 
 void
-test_fcarry_insert() {
-    struct fcarry c;
-    fcarry_init(&c);
+test_finsert() {
+    struct foos c;
+    finit(&c);
 
     /* Insert on empty list */
-    eqint(0, fcarry_insertp(&c, 0, &f1));
-    eqint(1, fcarry_getp(&c, 0)->bar);
+    eqint(0, finsertp(&c, 0, &f1));
+    eqint(1, fgetp(&c, 0)->bar);
    
     /* Insert on semi-full list */
-    fcarry_appendp(&c, &f2);
-    fcarry_appendp(&c, &f4);
-    eqint(0, fcarry_insertp(&c, 0, &f0));
-    eqint(0, fcarry_getp(&c, 0)->bar);
-    eqint(1, fcarry_getp(&c, 1)->bar);
-    eqint(2, fcarry_getp(&c, 2)->bar);
-    eqint(4, fcarry_getp(&c, 3)->bar);
+    fappendp(&c, &f2);
+    fappendp(&c, &f4);
+    eqint(0, finsertp(&c, 0, &f0));
+    eqint(0, fgetp(&c, 0)->bar);
+    eqint(1, fgetp(&c, 1)->bar);
+    eqint(2, fgetp(&c, 2)->bar);
+    eqint(4, fgetp(&c, 3)->bar);
 
     /* Insert at the middle of the list */
-    eqint(0, fcarry_insertp(&c, 3, &f3));
-    eqint(0, fcarry_getp(&c, 0)->bar);
-    eqint(1, fcarry_getp(&c, 1)->bar);
-    eqint(2, fcarry_getp(&c, 2)->bar);
-    eqint(3, fcarry_getp(&c, 3)->bar);
-    eqint(4, fcarry_getp(&c, 4)->bar);
+    eqint(0, finsertp(&c, 3, &f3));
+    eqint(0, fgetp(&c, 0)->bar);
+    eqint(1, fgetp(&c, 1)->bar);
+    eqint(2, fgetp(&c, 2)->bar);
+    eqint(3, fgetp(&c, 3)->bar);
+    eqint(4, fgetp(&c, 4)->bar);
 
     /* Insert at the end of the list */
-    eqint(0, fcarry_insertp(&c, 5, &f5));
-    eqint(0, fcarry_getp(&c, 0)->bar);
-    eqint(1, fcarry_getp(&c, 1)->bar);
-    eqint(2, fcarry_getp(&c, 2)->bar);
-    eqint(3, fcarry_getp(&c, 3)->bar);
-    eqint(4, fcarry_getp(&c, 4)->bar);
-    eqint(5, fcarry_getp(&c, 5)->bar);
+    eqint(0, finsertp(&c, 5, &f5));
+    eqint(0, fgetp(&c, 0)->bar);
+    eqint(1, fgetp(&c, 1)->bar);
+    eqint(2, fgetp(&c, 2)->bar);
+    eqint(3, fgetp(&c, 3)->bar);
+    eqint(4, fgetp(&c, 4)->bar);
+    eqint(5, fgetp(&c, 5)->bar);
 
     /* Insert at invalid position */
-    eqint(-1, fcarry_insertp(&c, 7, &f8));
+    eqint(-1, finsertp(&c, 7, &f8));
 }
