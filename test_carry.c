@@ -18,8 +18,8 @@ int main() {
 
     // Defined in test_fcarry.c
     test_fcarry_init();
-    // test_fcarry_append();
-    // test_fcarry_delete();
+    test_fcarry_append();
+    test_fcarry_delete();
     // test_fcarry_insert();
     return EXIT_SUCCESS;
 }
