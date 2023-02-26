@@ -1,7 +1,10 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdlib.h>
+#include <cutest.h>
 
+#include "icarry.h"
+#include "fcarry.h"
 #include "test_icarry.c"
 #include "test_fcarry.c"
 

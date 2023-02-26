@@ -1,7 +1,3 @@
-#include <cutest.h>
-#include "icarry.h"
-
-
 static int i0 = 0;
 static int i1 = 1;
 static int i2 = 2;

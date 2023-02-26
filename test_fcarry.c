@@ -1,7 +1,3 @@
-#include <cutest.h>
-#include "fcarry.h"
-
-
 void
 test_fcarry_init() {
     int i;

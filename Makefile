@@ -6,7 +6,7 @@ all: test
 	$(CC) -c $(CFLAGS) -o $@ $<
 
 
-test_carry: test_carry.c test_icarry.c test_fcarry.c icarry.o fcarry.o
+test_carry: test_carry.c icarry.o fcarry.o
 	$(CC) -o $@ $^
 
 

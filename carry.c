@@ -97,5 +97,5 @@ CNAME(carry_delete) (struct CNAME(carry) *c, int index) {
         memcpy(&(c->buffer[i-1]), &(c->buffer[i]), sizeof(CTYPE));
     }
     c->count--;
-    return -1;
+    return 0;
 }
