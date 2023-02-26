@@ -125,5 +125,5 @@ test_fcarry_insert() {
     eqint(5, fcarry_getp(&c, 5)->bar);
 
     /* Insert at invalid position */
-    eqint(-1, fcarry_insertp(&c, 7, &i8));
+    eqint(-1, fcarry_insertp(&c, 7, &f8));
 }
