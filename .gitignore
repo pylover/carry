@@ -3,3 +3,5 @@
 *.so
 .*.sw[op]
 test_carry
+
+build
