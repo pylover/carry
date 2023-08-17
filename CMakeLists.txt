@@ -29,33 +29,10 @@ set(CPACK_DEBIAN_PACKAGE_DEPENDS "libclog (>= 1.1)")
 include(CPack)
 
 
-# Testing
+# Tests
 if (NOT DEFINED ENV{SKIP_TESTS})
-include(CTest)
-list(APPEND CMAKE_CTEST_ARGUMENTS "--output-on-failure")
-
-add_library(fcarry OBJECT fcarry.c fcarry.h) 
-add_library(icarry OBJECT icarry.c icarry.h) 
-
-
-# Valgrind, Profiling
-add_custom_target(profile 
-    DEPENDS 
-    profile_test_carry
-)
-
-# Test carry
-add_executable(test_carry 
-    test_carry.c
-    $<TARGET_OBJECTS:fcarry>
-    $<TARGET_OBJECTS:icarry>
-)
-target_include_directories(test_carry PUBLIC "${PROJECT_BINARY_DIR}")
-target_link_libraries(test_carry PUBLIC clog)
-add_test(NAME test_carry COMMAND test_carry)
-add_custom_target(profile_test_carry
-    COMMAND "valgrind" 
-    ${VALGRIND_FLAGS}
-    $<TARGET_FILE:test_carry>
-)
+    enable_testing()
+    # list(APPEND CMAKE_CTEST_ARGUMENTS "--verbose")
+    add_subdirectory(tests)
+    list(APPEND CMAKE_CTEST_ARGUMENTS "--output-on-failure")
 endif()
