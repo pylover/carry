@@ -1,23 +1,61 @@
-#include <stddef.h>
+// Copyright 2023 Vahid Mardani
+/*
+ * This file is part of carry.
+ *  carry is free software: you can redistribute it and/or modify it under
+ *  the terms of the GNU General Public License as published by the Free
+ *  Software Foundation, either version 3 of the License, or (at your option)
+ *  any later version.
+ *
+ *  carry is distributed in the hope that it will be useful, but WITHOUT ANY
+ *  WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ *  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ *  details.
+ *
+ *  You should have received a copy of the GNU General Public License along
+ *  with carry. If not, see <https://www.gnu.org/licenses/>.
+ *
+ *  Author: Vahid Mardani <vahid.mardani@gmail.com>
+ */
+#include <stdlib.h>  // NOLINT
 #include <string.h>
 
 
 int
-CARRY_NAME(array_init)(struct CARRY_NAME(array) *self, size_t size) {
-    self->array = calloc(size, sizeof(CARRY_TYPE));
-    memset(self->array, 0, size * sizeof(CARRY_TYPE));
+CARRYNAME(init)(struct CARRYSELF() *self, size_t size) {
+    self->pool = calloc(size, sizeof(CARRYTYPE*));
+    if (self->pool == NULL) {
+        return -1;
+    }
+    memset(self->pool, 0, size * sizeof(CARRYTYPE*));
     self->count = 0;
     self->size = size;
     return 0;
 }
 
 
+void
+CARRYNAME(deinit)(struct CARRYSELF() *self) {
+    if (self->pool == NULL) {
+        return;
+    }
+    free(self->pool);
+}
+
+
 int
-CARRY_NAME(array_append)(struct CARRY_NAME(array) *self, CARRY_TYPE item) {
+CARRYNAME(append)(struct CARRYSELF() *self, CARRYTYPE *item) {
     int i;
 
+    if (item == NULL) {
+        return -1;
+    }
+
+    if (CARRY_ISFULL(self)) {
+        return -1;
+    }
+
     for (i = 0; i < self->size; i++) {
-        if (CARRY_ISEMPTY(self->array[i])) {
+        if (self->pool[i] == NULL) {
             goto found;
         }
     }
@@ -26,121 +64,54 @@ notfound:
     return -1;
 
 found:
-    self->array[i] = item;
+    self->pool[i] = item;
     self->count++;
     return i;
 }
 
 
 int
-CARRY_NAME(array_set)(struct CARRY_NAME(array) *self, CARRY_TYPE item,
-        unsigned int index) {
+CARRYNAME(vacuumflag)(struct CARRYSELF() *self, unsigned int index) {
     if (self->size <= index) {
         return -1;
     }
 
-    if (CARRY_ISEMPTY(item)) {
-        if (!CARRY_ISEMPTY(self->array[index])) {
-            self->count--;
-        }
+    self->pool[index] = NULL;
+    return 0;
+}
+
+
+CARRYTYPE*
+CARRYNAME(get)(struct CARRYSELF() *self, unsigned int index) {
+    if (self->size <= index) {
+        return NULL;
     }
-    else {
-        if (CARRY_ISEMPTY(self->array[index])) {
-            self->count++;
+
+    return self->pool[index];
+}
+
+
+void
+CARRYNAME(vacuum)(struct CARRYSELF() *self, CARRYNAME(vacuumcb) cb) {
+    int i;
+    int shift = 0;
+
+    for (i = 0; i < self->count; i++) {
+        if (self->pool[i] == NULL) {
+            shift++;
+            continue;
+        }
+
+        if (!shift) {
+            continue;
+        }
+
+        self->pool[i - shift] = self->pool[i];
+        self->pool[i] = NULL;
+        if (cb) {
+            cb(self->pool[i - shift], i - shift);
         }
     }
 
-    self->array[index] = item;
-    return 0;
+    self->count -= shift;
 }
-// bool
-// CFNAME(isfull) (struct CSNAME *c) {
-//     return c->count == CSIZE;
-// }
-//
-//
-// bool
-// CFNAME(isempty) (struct CSNAME *c) {
-//     return c->count == 0;
-// }
-//
-//
-// size_t
-// CFNAME(count) (struct CSNAME *c) {
-//     return c->count;
-// }
-//
-//
-// int
-// CFNAME(copy) (struct CSNAME *c, CTYPE *out, int index) {
-//     if (c->count <= index) {
-//         return -1;
-//     }
-//
-//     memcpy(out, &(c->buffer[index]), sizeof(CTYPE));
-//     return 0;
-// }
-//
-//
-// CTYPE *
-// CFNAME(getp) (struct CSNAME *c, int index) {
-//     if (c->count <= index) {
-//         return NULL;
-//     }
-//
-//     return &(c->buffer[index]);
-// }
-//
-//
-// int
-// CFNAME(appendp) (struct CSNAME *c, CTYPE *item) {
-//     int i;
-//
-//     if (c->count == CSIZE) {
-//         /* full */
-//         return -1;
-//     }
-//
-//     memcpy(&(c->buffer[c->count]), item, sizeof(CTYPE));
-//     c->count++;
-//     return 0;
-// }
-//
-//
-// int
-// CFNAME(insertp) (struct CSNAME *c, int index, CTYPE *item) {
-//     int i;
-//
-//     if (c->count == CSIZE) {
-//         /* full */
-//         return -1;
-//     }
-//
-//     if (c->count < index) {
-//         return -1;
-//     }
-//
-//     c->count++;
-//     for (i = c->count; i >= index; i--) {
-//         memcpy(&(c->buffer[i]), &(c->buffer[i-1]), sizeof(CTYPE));
-//     }
-//
-//     memcpy(&(c->buffer[index]), item, sizeof(CTYPE));
-//     return 0;
-// }
-//
-//
-// int
-// CFNAME(delete) (struct CSNAME *c, int index) {
-//     int i;
-//
-//     if (c->count <= index) {
-//         return -1;
-//     }
-//
-//     for (i = (index + 1); i < c->count; i++) {
-//         memcpy(&(c->buffer[i-1]), &(c->buffer[i]), sizeof(CTYPE));
-//     }
-//     c->count--;
-//     return 0;
-// }

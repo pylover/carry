@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.7)
 project(carry 
-    VERSION 1.0.0
+    VERSION 2.0.0
     LANGUAGES C
 )
 
@@ -36,3 +36,22 @@ if (NOT DEFINED ENV{SKIP_TESTS})
     add_subdirectory(tests)
     list(APPEND CMAKE_CTEST_ARGUMENTS "--output-on-failure")
 endif()
+
+
+# Lint
+set(PRETTYC_FLAGS
+    --recursive
+    --verbose=0
+    --repository=.
+    --extensions=c,h,in
+    --linelength=80
+    --headers=h,in
+    --includeorder=standardcfirst
+    --root=.
+    #--quiet
+    ${PROJECT_SOURCE_DIR}
+)
+add_custom_target(lint
+    COMMAND prettyc
+    ${PRETTYC_FLAGS}
+)

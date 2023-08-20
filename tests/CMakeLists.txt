@@ -2,9 +2,6 @@
 include(CTest)
 list(APPEND testrules
     carry
-    # router
-    # request parser
-
 )
 list(TRANSFORM testrules PREPEND test_)
 set(profilerules ${testrules})
