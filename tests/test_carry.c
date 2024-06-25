@@ -68,15 +68,15 @@ struct itemindex {
 
 static struct itemindex itemindexes[8];
 static int itemindex_count = 0;
-static int vacuum_callback_count = 0;
+static int vaccum_callback_count = 0;
 
 
 static void
-_vacuum_callback(int *item, unsigned int newindex) {
+_vaccum_callback(int *item, unsigned int newindex) {
     struct itemindex *itemindex = &itemindexes[itemindex_count++];
     itemindex->item = item;
     itemindex->index = newindex;
-    vacuum_callback_count++;
+    vaccum_callback_count++;
 }
 
 
@@ -88,7 +88,7 @@ eqitemindex(int *item, unsigned int index, struct itemindex *itemindex) {
 
 
 void
-test_generic_pool_vacuum() {
+test_generic_pool_vaccum() {
     struct int_pool pool;
 
     int foo = 1;
@@ -98,7 +98,7 @@ test_generic_pool_vacuum() {
     int quux = 5;
 
     /* When first element is empty */
-    vacuum_callback_count = 0;
+    vaccum_callback_count = 0;
     itemindex_count = 0;
     int_pool_init(&pool, 8);
     int_pool_append(&pool, &quux);
@@ -110,19 +110,19 @@ test_generic_pool_vacuum() {
     int_pool_append(&pool, &qux);
 
     /* Set some elements to null */
-    int_pool_vacuumflag(&pool, 0);
-    int_pool_vacuumflag(&pool, 3);
-    int_pool_vacuumflag(&pool, 4);
+    int_pool_vaccumflag(&pool, 0);
+    int_pool_vaccumflag(&pool, 3);
+    int_pool_vaccumflag(&pool, 4);
 
     /* Do action! */
-    int_pool_vacuum(&pool, _vacuum_callback);
+    int_pool_vaccum(&pool, _vaccum_callback);
 
     /* Check new indexes */
     eqitemindex(&foo, 0, &itemindexes[0]);
     eqitemindex(&bar, 1, &itemindexes[1]);
     eqitemindex(&baz, 2, &itemindexes[2]);
     eqitemindex(&qux, 3, &itemindexes[3]);
-    eqint(4, vacuum_callback_count);
+    eqint(4, vaccum_callback_count);
 
     /* Check collection */
     eqptr(&foo, int_pool_get(&pool, 0));
@@ -138,7 +138,7 @@ test_generic_pool_vacuum() {
     int_pool_deinit(&pool);
 
     /* When first element is not empty */
-    vacuum_callback_count = 0;
+    vaccum_callback_count = 0;
     itemindex_count = 0;
     int_pool_init(&pool, 8);
     int_pool_append(&pool, &foo);
@@ -151,19 +151,19 @@ test_generic_pool_vacuum() {
     int_pool_append(&pool, &quux);
 
     /* Set some elements to null */
-    int_pool_vacuumflag(&pool, 1);
-    int_pool_vacuumflag(&pool, 3);
-    int_pool_vacuumflag(&pool, 4);
+    int_pool_vaccumflag(&pool, 1);
+    int_pool_vaccumflag(&pool, 3);
+    int_pool_vaccumflag(&pool, 4);
 
     /* Do action! */
-    int_pool_vacuum(&pool, _vacuum_callback);
+    int_pool_vaccum(&pool, _vaccum_callback);
 
     /* Check new indexes */
     eqitemindex(&bar, 1, &itemindexes[0]);
     eqitemindex(&baz, 2, &itemindexes[1]);
     eqitemindex(&qux, 3, &itemindexes[2]);
     eqitemindex(&quux, 4, &itemindexes[3]);
-    eqint(4, vacuum_callback_count);
+    eqint(4, vaccum_callback_count);
 
     /* Check collection */
     eqptr(&foo, int_pool_get(&pool, 0));
@@ -182,5 +182,5 @@ test_generic_pool_vacuum() {
 void
 main() {
     test_generic_pool();
-    test_generic_pool_vacuum();
+    test_generic_pool_vaccum();
 }

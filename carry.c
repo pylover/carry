@@ -71,7 +71,7 @@ found:
 
 
 int
-CARRYNAME(vacuumflag)(struct CARRYSELF() *self, unsigned int index) {
+CARRYNAME(vaccumflag)(struct CARRYSELF() *self, unsigned int index) {
     if (self->size <= index) {
         return -1;
     }
@@ -92,7 +92,7 @@ CARRYNAME(get)(struct CARRYSELF() *self, unsigned int index) {
 
 
 void
-CARRYNAME(vacuum)(struct CARRYSELF() *self, CARRYNAME(vacuumcb) cb) {
+CARRYNAME(vaccum)(struct CARRYSELF() *self, CARRYNAME(vaccumcb) cb) {
     int i;
     int shift = 0;
 

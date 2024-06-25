@@ -42,7 +42,7 @@ CARRYSELF() {
 };
 
 
-typedef void (*CARRYNAME(vacuumcb)) (CARRYTYPE *item, unsigned int index);
+typedef void (*CARRYNAME(vaccumcb)) (CARRYTYPE *item, unsigned int index);
 
 
 int
@@ -58,7 +58,7 @@ CARRYNAME(append)(struct CARRYSELF() *self, CARRYTYPE *item);
 
 
 int
-CARRYNAME(vacuumflag)(struct CARRYSELF() *self, unsigned int index);
+CARRYNAME(vaccumflag)(struct CARRYSELF() *self, unsigned int index);
 
 
 CARRYTYPE*
@@ -66,4 +66,4 @@ CARRYNAME(get)(struct CARRYSELF() *self, unsigned int index);
 
 
 void
-CARRYNAME(vacuum)(struct CARRYSELF() *self, CARRYNAME(vacuumcb) cb);
+CARRYNAME(vaccum)(struct CARRYSELF() *self, CARRYNAME(vaccumcb) cb);
